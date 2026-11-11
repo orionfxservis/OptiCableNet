@@ -1,0 +1,6 @@
+{
+  "name": "OptiCable Net - Cable & ISP Management ERP",
+  "description": "Real-time cable net management system with network topology visualization, fiber performance & device status monitoring, automated alerts, inventory tracking, hardware audits, client package expiry and payment alerts, staff records, and expense tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
