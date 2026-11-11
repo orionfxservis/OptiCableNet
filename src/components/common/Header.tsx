@@ -6,15 +6,17 @@ import {
   VolumeX,
   Smartphone,
   Laptop,
-  PlusCircle,
   RotateCcw,
+  Menu,
 } from 'lucide-react';
+import { MENU_ITEMS } from './SidebarNav';
 
 interface HeaderProps {
+  onToggleMenu?: () => void;
   onOpenQuickPayment?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenQuickPayment }) => {
+export const Header: React.FC<HeaderProps> = ({ onToggleMenu }) => {
   const {
     activeTab,
     setActiveTab,
@@ -29,62 +31,50 @@ export const Header: React.FC<HeaderProps> = ({ onOpenQuickPayment }) => {
   const activeAlertsCount = alerts.filter(a => !a.resolved).length;
   const criticalAlertsCount = alerts.filter(a => !a.resolved && a.severity === 'critical').length;
 
-  const navItems = [
-    { id: 'overview', label: 'Dashboard' },
-    { id: 'topology', label: 'Network Map' },
-    { id: 'performance', label: 'Device Status' },
-    { id: 'clients', label: 'Clients & Billing' },
-    { id: 'inventory', label: 'Inventory & Audits' },
-    { id: 'maintenance', label: 'Maintenance' },
-    { id: 'staff', label: 'Staff' },
-    { id: 'expenses', label: 'Expenses' },
-  ];
+  const currentItem = MENU_ITEMS.find(
+    i => i.id === activeTab || (i.aliases && i.aliases.includes(activeTab))
+  ) || MENU_ITEMS[0];
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-slate-200 w-full max-w-full overflow-hidden">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 w-full">
-        <div className="flex items-center justify-between gap-2 sm:gap-4 lg:gap-6 h-16 w-full">
-          {/* Zone 1: Brand Wordmark (Single text element) */}
-          <div className="flex items-center gap-2 shrink-0">
+    <header className="shrink-0 z-20 bg-white/95 backdrop-blur-xs border-b border-slate-200 w-full overflow-hidden">
+      <div className="w-full px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between gap-3 h-16 w-full">
+          {/* Left: Mobile Menu Trigger + Active Section Title */}
+          <div className="flex items-center gap-3 min-w-0">
             <button
-              onClick={() => setActiveTab('overview')}
-              className="text-left group cursor-pointer focus:outline-none flex items-center gap-2"
+              onClick={onToggleMenu}
+              className="p-2 -ml-1 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg lg:hidden cursor-pointer"
+              aria-label="Toggle navigation menu"
             >
-              <div className="w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold text-sm tracking-wider shadow-sm shrink-0">
-                OC
-              </div>
-              <div>
-                <span className="text-base font-bold text-slate-900 tracking-tight whitespace-nowrap block">
-                  OptiCable Net
-                </span>
-                <span className="text-[10px] text-slate-500 font-medium whitespace-nowrap hidden sm:block">
-                  Cable & ISP Operations
-                </span>
-              </div>
+              <Menu className="w-5 h-5" />
             </button>
+
+            {/* Mobile Brand Logo */}
+            <button
+              onClick={() => setActiveTab('dashboard')}
+              className="lg:hidden shrink-0 flex items-center cursor-pointer"
+            >
+              <img
+                src="./logo.png"
+                alt="OptiCable Net"
+                className="h-8 w-auto object-contain max-w-[140px]"
+              />
+            </button>
+
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-semibold text-slate-400 hidden sm:inline">OptiCable Net /</span>
+                <h2 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight truncate">
+                  {currentItem.title}
+                </h2>
+              </div>
+              <p className="text-[11px] text-slate-500 truncate hidden md:block">
+                {currentItem.subtitle}
+              </p>
+            </div>
           </div>
 
-          {/* Zone 2: Clean single-line navigation links */}
-          <nav className="hidden lg:flex items-center gap-2 xl:gap-4 text-xs xl:text-sm font-medium text-slate-600 overflow-hidden">
-            {navItems.map(item => {
-              const isActive = activeTab === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id)}
-                  className={`cursor-pointer whitespace-nowrap transition-colors py-1 px-1 ${
-                    isActive
-                      ? 'text-sky-600 font-semibold border-b-2 border-sky-600'
-                      : 'hover:text-slate-900'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* Zone 3: Quick Controls (Utilities only, Record Payment moved under menu) */}
+          {/* Right: Quick Controls */}
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {/* Audio chime toggle */}
             <button
@@ -125,13 +115,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenQuickPayment }) => {
 
             {/* Alert Bell Button */}
             <button
-              onClick={() => setActiveTab('alerts')}
+              onClick={() => setActiveTab('complaints')}
               className={`relative p-1.5 sm:p-2 rounded-lg transition-colors cursor-pointer ${
-                activeTab === 'alerts'
+                activeTab === 'complaints' || activeTab === 'alerts'
                   ? 'bg-slate-100 text-slate-900'
                   : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100'
               }`}
-              title="Automated Network Alerts"
+              title="Automated Network & Ticket Alerts"
             >
               <Bell className="w-4 h-4" />
               {activeAlertsCount > 0 && (

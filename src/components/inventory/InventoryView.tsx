@@ -128,47 +128,48 @@ export const InventoryView: React.FC = () => {
   return (
     <div className="space-y-6 pb-20">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+      <div className="space-y-1">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 tracking-tight whitespace-nowrap truncate">
             Inventory Tracking & Hardware Audits
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Real-time stock of fiber reels, ONUs, passive splitters, and exportable monthly audit reports.
-          </p>
+
+          <div className="flex items-center gap-2 shrink-0 whitespace-nowrap overflow-x-auto pb-0.5 sm:pb-0">
+            {/* Monthly Hardware Audit Report Button */}
+            <button
+              onClick={() => setShowAuditModal(true)}
+              className="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs shrink-0"
+            >
+              <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Monthly Hardware Audit</span>
+            </button>
+
+            {/* Issue / Receive Material */}
+            <button
+              onClick={() => {
+                if (inventory.length > 0) setSelectedItemId(inventory[0].id);
+                setShowStockModal(true);
+              }}
+              className="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs shrink-0"
+            >
+              <ArrowDownRight className="w-3.5 h-3.5 text-sky-600" />
+              <span>Stock In / Out</span>
+            </button>
+
+            {/* Add Item */}
+            <button
+              onClick={() => setShowAddItemModal(true)}
+              className="px-3.5 py-1.5 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 rounded-lg transition-colors flex items-center gap-1 cursor-pointer shadow-2xs shrink-0"
+            >
+              <PlusCircle className="w-3.5 h-3.5" />
+              <span>Add Item</span>
+            </button>
+          </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          {/* Monthly Hardware Audit Report Button */}
-          <button
-            onClick={() => setShowAuditModal(true)}
-            className="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
-          >
-            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Monthly Hardware Audit</span>
-          </button>
-
-          {/* Issue / Receive Material */}
-          <button
-            onClick={() => {
-              if (inventory.length > 0) setSelectedItemId(inventory[0].id);
-              setShowStockModal(true);
-            }}
-            className="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
-          >
-            <ArrowDownRight className="w-3.5 h-3.5 text-sky-600" />
-            <span>Stock In / Out</span>
-          </button>
-
-          {/* Add Item */}
-          <button
-            onClick={() => setShowAddItemModal(true)}
-            className="px-3.5 py-1.5 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 rounded-lg transition-colors flex items-center gap-1 cursor-pointer shadow-2xs"
-          >
-            <PlusCircle className="w-3.5 h-3.5" />
-            <span>Add Item</span>
-          </button>
-        </div>
+        <p className="text-xs sm:text-sm text-slate-500 whitespace-nowrap truncate">
+          Real-time stock of fiber reels, ONUs, passive splitters and exportable monthly audit reports.
+        </p>
       </div>
 
       {/* Primary KPI Grid (Same compact size & standard color fill) */}
