@@ -297,16 +297,18 @@ export const ClientsView: React.FC<ClientsViewProps> = ({
   return (
     <div className="space-y-6 pb-20">
       {/* Header */}
-      <div className="space-y-1">
-        <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 tracking-tight whitespace-nowrap truncate">
-          Client Records, Outstanding Dues & Package Expiry
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-500 whitespace-nowrap truncate">
-          Monitor renewal deadlines, send WhatsApp/SMS payment alerts, and manage subscriber billing.
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 tracking-tight whitespace-nowrap truncate">
+            Client Records, Outstanding Dues & Package Expiry
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500 whitespace-nowrap truncate mt-0.5">
+            Monitor renewal deadlines, send WhatsApp/SMS payment alerts, and manage subscriber billing.
+          </p>
+        </div>
 
-        {/* Buttons in single line placed under tagline */}
-        <div className="flex items-center gap-2.5 pt-2 whitespace-nowrap overflow-x-auto">
+        {/* Buttons vertically aligned on top right side covering empty space */}
+        <div className="flex flex-col gap-1.5 shrink-0 sm:items-end w-full sm:w-auto">
           <button
             onClick={() => {
               const clientToPay = clients.find(c => c.balanceDue > 0) || clients[0];
@@ -316,26 +318,26 @@ export const ClientsView: React.FC<ClientsViewProps> = ({
                 setLastReceipt(null);
               }
             }}
-            className="px-3.5 py-1.5 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs shrink-0"
+            className="w-full sm:w-48 px-3.5 py-1.5 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
           >
-            <Banknote className="w-3.5 h-3.5" />
-            <span>Record Payment</span>
+            <Banknote className="w-3.5 h-3.5 shrink-0" />
+            <span className="whitespace-nowrap">Record Payment</span>
           </button>
 
           <button
             onClick={handleExportCsv}
-            className="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs shrink-0"
+            className="w-full sm:w-48 px-3.5 py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
           >
-            <Download className="w-3.5 h-3.5 text-slate-600" />
-            <span>Export Subscribers</span>
+            <Download className="w-3.5 h-3.5 text-slate-600 shrink-0" />
+            <span className="whitespace-nowrap">Export Subscribers</span>
           </button>
 
           <button
             onClick={() => setShowAddModal(true)}
-            className="px-3.5 py-1.5 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 rounded-lg transition-colors flex items-center gap-1 cursor-pointer shadow-2xs shrink-0"
+            className="w-full sm:w-48 px-3.5 py-1.5 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
           >
-            <PlusCircle className="w-3.5 h-3.5" />
-            <span>New Customer</span>
+            <PlusCircle className="w-3.5 h-3.5 shrink-0" />
+            <span className="whitespace-nowrap">New Customer</span>
           </button>
         </div>
       </div>

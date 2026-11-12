@@ -90,7 +90,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
       )}
 
       {/* Top Header & Simulation Testing Bar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
             Network Operations & Billing Overview
@@ -100,39 +100,41 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
           </p>
         </div>
 
-        {/* Quick Testing & Action buttons */}
-        <div className="flex flex-wrap items-center gap-2">
-          {/* Record Payment moved here under the menu */}
+        {/* Quick Testing & Action buttons vertically aligned on the right side */}
+        <div className="flex flex-col gap-1.5 shrink-0 sm:items-end w-full sm:w-auto">
+          {/* Record Payment */}
           <button
             onClick={() => onOpenQuickPayment()}
-            className="px-3.5 py-1.5 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 rounded-lg transition-colors flex items-center gap-1.5 shadow-2xs cursor-pointer"
+            className="w-full sm:w-48 px-3.5 py-1.5 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer"
           >
-            <PlusCircle className="w-3.5 h-3.5" />
-            <span>Record Payment</span>
+            <PlusCircle className="w-3.5 h-3.5 shrink-0" />
+            <span className="whitespace-nowrap">Record Payment</span>
           </button>
 
+          {/* Simulate Fiber Cut */}
           <button
             onClick={() => {
               const testCable = cableRuns.find(c => c.status === 'nominal');
               if (testCable) simulateFiberCut(testCable.id);
             }}
             title="Simulate a real-time fiber cable cut to test alerts"
-            className="px-3 py-1.5 text-xs font-medium text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer"
+            className="w-full sm:w-48 px-3 py-1.5 text-xs font-medium text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <Play className="w-3.5 h-3.5 text-rose-600" />
-            <span>Simulate Fiber Cut</span>
+            <Play className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+            <span className="whitespace-nowrap">Simulate Fiber Cut</span>
           </button>
 
+          {/* Simulate Latency Spike */}
           <button
             onClick={() => {
               const targetNode = nodes.find(n => n.type === 'FDH' || n.type === 'FDB');
               if (targetNode) simulateLatencySpike(targetNode.id);
             }}
             title="Simulate high ping latency spike"
-            className="px-3 py-1.5 text-xs font-medium text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer"
+            className="w-full sm:w-48 px-3 py-1.5 text-xs font-medium text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <Zap className="w-3.5 h-3.5 text-amber-600" />
-            <span>Simulate Latency Spike</span>
+            <Zap className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+            <span className="whitespace-nowrap">Simulate Latency Spike</span>
           </button>
         </div>
       </div>
